@@ -69,6 +69,8 @@
             this.pictureBox3.TabIndex = 4;
             this.pictureBox3.TabStop = false;
             this.pictureBox3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox3_MouseDown);
+            this.pictureBox3.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox3_MouseMove);
+            this.pictureBox3.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox3_MouseUp);
             // 
             // textBox_WidthCell
             // 
@@ -76,6 +78,8 @@
             this.textBox_WidthCell.Name = "textBox_WidthCell";
             this.textBox_WidthCell.Size = new System.Drawing.Size(100, 20);
             this.textBox_WidthCell.TabIndex = 5;
+            this.textBox_WidthCell.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox_WidthCell_KeyDown);
+            this.textBox_WidthCell.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_WidthCell_KeyUp);
             // 
             // textBox_HeightCell
             // 
@@ -83,6 +87,8 @@
             this.textBox_HeightCell.Name = "textBox_HeightCell";
             this.textBox_HeightCell.Size = new System.Drawing.Size(100, 20);
             this.textBox_HeightCell.TabIndex = 6;
+            this.textBox_HeightCell.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox_WidthCell_KeyDown);
+            this.textBox_HeightCell.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_WidthCell_KeyUp);
             // 
             // button1
             // 
@@ -93,6 +99,8 @@
             this.button1.Text = "stwórz siatke ";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.button1_KeyDown);
+            this.button1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.button1_KeyUp);
             // 
             // buttonSaveChar
             // 
@@ -110,6 +118,8 @@
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(100, 20);
             this.textBoxName.TabIndex = 11;
+            this.textBoxName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox_WidthCell_KeyDown);
+            this.textBoxName.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox_WidthCell_KeyUp);
             // 
             // Form1
             // 
