@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MapeCreator
 {
-    class RectanglePicture
+    public class RectanglePicture
     {
         public int x { get; set; }
         public int y { get; set; }
@@ -16,9 +16,9 @@ namespace MapeCreator
         public Bitmap texture { get; set; }
         public TileTypes TileType { get; set; }
 
-        public RectanglePicture(int x, int y, int width, int height, Bitmap texture,TileTypes type)
+        public RectanglePicture(int x, int y, int width, int height, Bitmap texture,TileTypes? type = null)
         {
-            this.TileType = type;
+            if(type != null) TileType = type.Value;
             this.x = x;
             this.y = y;
             this.width = width;

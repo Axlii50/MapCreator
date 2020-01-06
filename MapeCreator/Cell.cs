@@ -13,6 +13,15 @@ namespace MapeCreator
         public int y { get; set; }
         public int width { get; set; }
         public int height { get; set; }
+
+        public Cell(int x, int y, int width, int height,RectanglePicture rect)
+        {
+            this.rect = rect;
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+        }
         public Cell(int x, int y, int width, int height)
         {
             this.x = x;

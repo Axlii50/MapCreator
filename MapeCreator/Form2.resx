@@ -117,47 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="floor_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\floor_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="floor_10" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\floor_10.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="floor_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\floor_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="floor_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\floor_3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="floor_4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\floor_4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="floor_5" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\floor_5.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="floor_6" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\floor_6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="floor_7" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\floor_7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="floor_8" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\floor_8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="floor_9" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\floor_9.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="wall_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\wall_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="wall_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\wall_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="wall_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\wall_3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="wall_crack" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\wall_crack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
 </root>

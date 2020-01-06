@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,53 +14,19 @@ namespace MapeCreator
 {
     public partial class Form1 : Form
     {
-        List<RectanglePicture> Textures = new List<RectanglePicture>();
         List<Cell> Space = new List<Cell>();
         private Camera _camera = new Camera();
+        private Form2 form2;
+
 
         RectanglePicture ClickedTexture;
 
         public Form1()
         {
             InitializeComponent();
+           
         }
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            Bitmap bitmap = (Bitmap)(MapeCreator.Properties.Resources.MapSprite);
-            Rectangle[] rect = { new Rectangle(16, 16, 16, 16), new Rectangle(96, 0, 16, 16), new Rectangle(64, 112, 16, 16),
-                                 new Rectangle(0, 144, 16, 16), new Rectangle(16, 144, 16, 16), new Rectangle(96, 138, 16, 22)};
-
-            Bitmap Picturebitmap = new Bitmap(32 * rect.Length, 44);
-
-            for (int i = 0; i < rect.Length; i++)
-            {
-                if (i <= 3)
-                    Textures.Add(new RectanglePicture(i * 32, 0, 16 * 2, 22 * 2, bitmap.Clone(rect[i], System.Drawing.Imaging.PixelFormat.DontCare), TileTypes.Wall));
-                else if (i == rect.Length)
-                    Textures.Add(new RectanglePicture(i * 32, 0, 16 * 2, 16 * 2, bitmap.Clone(rect[i], System.Drawing.Imaging.PixelFormat.DontCare), TileTypes.none));
-                else
-                    Textures.Add(new RectanglePicture(i * 32, 0, 16 * 2, 22 * 2, bitmap.Clone(rect[i], System.Drawing.Imaging.PixelFormat.DontCare), TileTypes.none));
-            }
-            using (Graphics g = Graphics.FromImage(Picturebitmap))
-                foreach (RectanglePicture x in Textures)
-                {
-                    g.DrawImage(ScaleUpImage(x.texture), x.x, 0);
-                }
-            pictureBox1.Image = Picturebitmap;
-        }
-
-        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
-        {
-            foreach (RectanglePicture r in Textures)
-            {
-                if ((r.x <= e.X && r.x + r.width >= e.X )
-                    && (r.y <= e.Y && r.y + r.height >= e.Y))
-                {
-                    ClickedTexture = r;
-                    pictureBox2.Image = ScaleUpImage(ClickedTexture.texture);
-                }
-            }
-        }
+        
         private void button1_Click(object sender, EventArgs e)
         {
             if (textBox_HeightCell.Text != String.Empty || textBox_WidthCell.Text != String.Empty)
@@ -76,27 +44,15 @@ namespace MapeCreator
                 }
                 RefreshPictureBox();
             }
-            button1.Focus();
+            GridCreator.Focus();
         }
-        private Bitmap ScaleUpImage(Bitmap b)
+        private void RefreshPictureBox(int? height = null, int? width = null)
         {
-            Bitmap t1 = new Bitmap(32, 44);
-            using (Graphics c = Graphics.FromImage(t1))
-            {
-                c.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-                c.DrawImage(b, 0, 0, 32, 44);
-            }
-            return t1;
-        }
-        private void RefreshPictureBox()
-        {
-            // zmienic rysowanie mapy
-            int Width = int.Parse(textBox_WidthCell.Text);
-            int Height = int.Parse(textBox_HeightCell.Text);
+            int Width = width == null ? int.Parse(textBox_WidthCell.Text) : width.Value;
+            int Height = height == null ? int.Parse(textBox_HeightCell.Text) : height.Value;
 
             Bitmap btm = new Bitmap(Width * 16 + 1, Height * 16 + 1);
             Bitmap CameraViewPoint = new Bitmap(_camera.CameraViewX, _camera.CameraViewY);
-
 
             int tx = _camera.X - 16;
             int ty = _camera.Y - 16;
@@ -109,7 +65,7 @@ namespace MapeCreator
             {
                 foreach (Cell c in Space)
                 {
-                    if ((c.x >= tx && c.x <= tx + vx)||
+                    if ((c.x >= tx && c.x <= tx + vx) ||
                         (c.y >= ty && c.y <= tx + vy))
                     {
 
@@ -124,8 +80,6 @@ namespace MapeCreator
             GC.Collect();
             GC.WaitForPendingFinalizers();
 
-            //CameraViewPoint = btm.Clone(new Rectangle(_camera.X, _camera.Y, _camera.CameraViewX, _camera.CameraViewY), System.Drawing.Imaging.PixelFormat.DontCare);
-
             using (Graphics g = Graphics.FromImage(CameraViewPoint))
             {
                 g.DrawImage(btm, new Rectangle(0, 0, _camera.CameraViewX, _camera.CameraViewY), new Rectangle(_camera.X, _camera.Y, _camera.CameraViewX, _camera.CameraViewY), GraphicsUnit.Pixel);
@@ -138,7 +92,7 @@ namespace MapeCreator
             int Width = int.Parse(textBox_WidthCell.Text);
             int Height = int.Parse(textBox_HeightCell.Text);
             SaveMeneger.Save(Space, Width, Height, textBoxName.Text);
-            button1.Focus();
+            GridCreator.Focus();
         }
 
         private void pictureBox3_MouseDown(object sender, MouseEventArgs e)
@@ -156,13 +110,12 @@ namespace MapeCreator
                     if ((r.x <= e.X + _camera.X && r.x + r.width >= e.X + _camera.X)
                         && (r.y <= e.Y + _camera.Y && r.y + r.height >= e.Y + _camera.Y))
                     {
-                        r.rect = ClickedTexture;
+                        r.rect = form2.GetCllickedObject();
                     }
                 }
                 RefreshPictureBox();
-                
             }
-            button1.Focus();
+            GridCreator.Focus();
         }
         private void pictureBox3_MouseUp(object sender, MouseEventArgs e)
         {
@@ -201,38 +154,128 @@ namespace MapeCreator
                 RefreshPictureBox();
             }
         }
+
         private void button1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.R)
                 Clickedkey = Keys.R;
         }
-
         private void button1_KeyUp(object sender, KeyEventArgs e)
         {
             IsDown = false;
             Clickedkey = Keys.XButton1;
             _camera.CameraClickPos = null;
         }
-
         private void textBox_WidthCell_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.R)
                 Clickedkey = Keys.R;
         }
-
         private void textBox_WidthCell_KeyUp(object sender, KeyEventArgs e)
         {
             IsDown = false;
             Clickedkey = Keys.XButton1;
             _camera.CameraClickPos = null;
         }
+
+        private void MapLoader_Click(object sender, EventArgs e)
+        {
+            string Filepath = string.Empty;
+            string FileContent = string.Empty;
+            using (OpenFileDialog DialogFile = new OpenFileDialog())
+            {
+                DialogFile.DefaultExt = "json";
+                if (DialogFile.ShowDialog() == DialogResult.OK)
+                {
+                    Filepath = DialogFile.FileName;
+                }
+                DialogFile.Dispose();
+            }
+
+            using (StreamReader reader = new StreamReader(Filepath))
+            {
+                FileContent = reader.ReadToEnd();
+                reader.Dispose();
+            }
+
+            SaveInstance map = JsonConvert.DeserializeObject<SaveInstance>(FileContent);
+
+            Space.Clear();
+
+            string[] characters = map.Characters.Split(',');
+
+            for (int i = 0; i < map.Width; i++)
+            {
+                for (int j = 0; j < map.Height; j++)
+                {
+                    switch (characters[(map.Width*j)+i])
+                    {
+                        case "-":
+                            Space.Add(new Cell(i * 16, j * 16, 16, 16));
+                            break;
+                        case "f1":
+                            Space.Add(new Cell(i * 16, j * 16, 16, 16, new RectanglePicture(0, 0, 16 * 2, 16 * 2, form2.GetTextureObject(0).texture, TileTypes.FloorR1)));
+                            break;
+                        case "f2":
+                            Space.Add(new Cell(i * 16, j * 16, 16, 16, new RectanglePicture(0, 0, 16 * 2, 16 * 2, form2.GetTextureObject(1).texture, TileTypes.FloorR2)));
+                            break;
+                        case "f3":
+                            Space.Add(new Cell(i * 16, j * 16, 16, 16, new RectanglePicture(0, 0, 16 * 2, 16 * 2, form2.GetTextureObject(2).texture, TileTypes.FloorR3)));
+                            break;
+                        case "f4":
+                            Space.Add(new Cell(i * 16, j * 16, 16, 16, new RectanglePicture(0, 0, 16 * 2, 16 * 2, form2.GetTextureObject(3).texture, TileTypes.FloorR4)));
+                            break;
+                        case "f5":
+                            Space.Add(new Cell(i * 16, j * 16, 16, 16, new RectanglePicture(0, 0, 16 * 2, 16 * 2, form2.GetTextureObject(4).texture, TileTypes.FloorR5)));
+                            break;
+                        case "f6":
+                            Space.Add(new Cell(i * 16, j * 16, 16, 16, new RectanglePicture(0, 0, 16 * 2, 16 * 2, form2.GetTextureObject(5).texture, TileTypes.FloorR6)));
+                            break;
+                        case "f7":
+                            Space.Add(new Cell(i * 16, j * 16, 16, 16, new RectanglePicture(0, 0, 16 * 2, 16 * 2, form2.GetTextureObject(6).texture, TileTypes.FloorR7)));
+                            break;
+                        case "f8":
+                            Space.Add(new Cell(i * 16, j * 16, 16, 16, new RectanglePicture(0, 0, 16 * 2, 16 * 2, form2.GetTextureObject(7).texture, TileTypes.FloorR8)));
+                            break;
+                        case "f9":
+                            Space.Add(new Cell(i * 16, j * 16, 16, 16, new RectanglePicture(0, 0, 16 * 2, 16 * 2, form2.GetTextureObject(8).texture, TileTypes.FloorR9)));
+                            break;
+                        case "f10":
+                            Space.Add(new Cell(i * 16, j * 16, 16, 16, new RectanglePicture(0, 0, 16 * 2, 16 * 2, form2.GetTextureObject(9).texture, TileTypes.FloorR10)));
+                            break;
+                        case "w1":
+                            Space.Add(new Cell(i * 16, j * 16, 16, 16, new RectanglePicture(0, 0, 16 * 2, 16 * 2, form2.GetTextureObject(10).texture, TileTypes.WallR1)));
+                            break;
+                        case "w2":
+                            Space.Add(new Cell(i * 16, j * 16, 16, 16, new RectanglePicture(0, 0, 16 * 2, 16 * 2, form2.GetTextureObject(11).texture, TileTypes.WallR2)));
+                            break;
+                        case "w3":
+                            Space.Add(new Cell(i * 16, j * 16, 16, 16, new RectanglePicture(0, 0, 16 * 2, 16 * 2, form2.GetTextureObject(12).texture, TileTypes.WallR3)));
+                            break;
+                        case "w4":
+                            Space.Add(new Cell(i * 16, j * 16, 16, 16, new RectanglePicture(0, 0, 16 * 2, 16 * 2, form2.GetTextureObject(13).texture, TileTypes.WallR4)));
+                            break;
+                    }
+                }
+            }
+            textBox_HeightCell.Text = map.Height.ToString();
+            textBox_WidthCell.Text = map.Width.ToString();
+            RefreshPictureBox(map.Width, map.Height);
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            form2 = new Form2(this.pictureBox2);
+            form2.Show();
+            form2.Hide();
+        }
+
+        private void buttonTextures_Click(object sender, EventArgs e)
+        {
+            form2.Show();
+        }
     }
 
 
-
-
     //dodawanie przez przeciągniecie myszką
-    //wiecej textur
-    //wiecej TypeTile
-    //wczytywanie map do edytowania
 }
